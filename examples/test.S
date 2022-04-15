@@ -12,31 +12,31 @@ main:
         unwind
 
 main.sc:
+        ;; main = f id 32 21
+        pushint 21
+        pushint 32
         pushglobal id
-        pushint 52
+        pushglobal f
+        mkap
+        mkap
         mkap
         slide 1
         unwind
 
-        ;; pushglobal f
-        ;; pushglobal id
-        ;; mkap
-        ;; pushint 5
-        ;; mkap
-        ;; slide 1
-        ;; unwind
-
 id.sc:
+        ;; id x = x
         pusharg 0
         slide 2
         unwind
 
 K.sc:
+        ;; K x y = x
         pusharg 0
         slide 3
         unwind
 
 f.sc:
+        ;; f g x = K (g x)
         pusharg 1
         pusharg 1
         mkap

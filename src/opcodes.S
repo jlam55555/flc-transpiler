@@ -47,7 +47,7 @@
         ;; TODO: check that the element is an arg node
 %macro  pusharg 1
         ;; get address of node
-        mov rax, rsp[%1*4]
+        mov rax, rsp[(%1+1)*8]
         ;; push address of argument
         push qword [rax+16]
 %endmacro
@@ -59,10 +59,10 @@
         ;; allocate new node
         mov rdi, 24
         call malloc wrt ..plt
-        ;; pop arg addr from stack
-        pop rcx
 	;; pop fn addr from stack
         pop rdx
+        ;; pop arg addr from stack
+        pop rcx
         ;; set the new node's contents
         mov qword [rax], TAG_AP
         mov [rax+8], rdx
