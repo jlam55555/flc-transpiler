@@ -23,7 +23,7 @@
 
         ;; allocate and push an integer onto the stack
 %macro  pushint 1
-        mov rdi, 24
+        mov rdi, 16
         ;; pie: see https://reddit.com/r/asm/comments/gxt3mw/
         call malloc wrt ..plt
         ;; move the int into the int pointer
@@ -57,7 +57,7 @@
         ;; this new node
 %macro  mkap 0
         ;; allocate new node
-        mov rdi, 16
+        mov rdi, 24
         call malloc wrt ..plt
         ;; pop arg addr from stack
         pop rcx
@@ -75,7 +75,7 @@
 %macro  slide 1
         ;; rax is the new top of the stack, rcx is the
         ;; value at the top of the stack
-        lea rax, rsp[%1*4]
+        lea rax, rsp[%1*8]
         mov rcx, [rsp]
         mov [rax], rcx
         mov rsp, rax
@@ -89,16 +89,16 @@
 
         ;; if it's an int, end the program
         ;; TODO: do we also need to check if the stack is empty?
-        test qword [rax], TAG_NUM
+        cmp qword [rax], TAG_NUM
         jz .done
 
         ;; if it's an ap, push the arg onto the stack and
         ;; continue unwinding
-        test qword [rax], TAG_AP
+        cmp qword [rax], TAG_AP
         jz .continue_unwind
 
         ;; if it's a supercombinator, then run the supercomb code
-        test qword [rax], TAG_GLOBAL
+        cmp qword [rax], TAG_GLOBAL
         jz .supercombinator
 
         ;; error: not a valid tagged node
@@ -109,7 +109,7 @@
         ;; for now, simply return value in rdi, later should
         ;; set rdi to zero to indicate no error
         ;; xor rdi, rdi
-        mov rdi, rax
+        mov rdi, [rax+8]
         jmp quit
 
 .continue_unwind:

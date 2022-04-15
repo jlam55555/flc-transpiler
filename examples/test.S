@@ -7,25 +7,24 @@ main:
         ;; push main sc onto the stack
         pushglobal main
         ;; set up base pointer
-        mov ebp, esp
+        mov rbp, rsp
         ;; begin evaluating supercombinator code
-        jmp main.sc
-        ;; `unwind` should also work here: switch to
-        ;; that once this works
+        unwind
 
 main.sc:
-        pushint 5
+        pushglobal id
+        pushint 52
+        mkap
         slide 1
         unwind
 
-;; main:
-;;         pushglobal f
-;;         pushglobal id
-;;         mkap
-;;         pushint 5
-;;         mkap
-;;         slide 1
-;;         unwind
+        ;; pushglobal f
+        ;; pushglobal id
+        ;; mkap
+        ;; pushint 5
+        ;; mkap
+        ;; slide 1
+        ;; unwind
 
 id.sc:
         pusharg 0

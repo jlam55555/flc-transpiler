@@ -11,8 +11,8 @@ pp: $(SRC_DIR)/opcodes.S examples/test.S
 # currently for testing
 $(BUILD_DIR)/test: $(SRC_DIR)/opcodes.S examples/test.S
 	mkdir -p $(BUILD_DIR)
-	nasm -felf64 -p$(SRC_DIR)/opcodes.S -o$(BUILD_DIR)/test.o examples/test.S
-	gcc -o$(BUILD_DIR)/test $(BUILD_DIR)/test.o
+	nasm -g -felf64 -p$(SRC_DIR)/opcodes.S -o$(BUILD_DIR)/test.o examples/test.S
+	gcc -g -o$(BUILD_DIR)/test $(BUILD_DIR)/test.o
 
 test: $(BUILD_DIR)/test
 
